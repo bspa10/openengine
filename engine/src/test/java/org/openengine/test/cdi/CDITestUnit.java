@@ -3,16 +3,16 @@ package org.openengine.test.cdi;
 import org.junit.jupiter.api.*;
 import org.openengine.cdi.CDIException;
 import org.openengine.cdi.Injector;
-import org.openengine.test.mock.CDIModuleNoOverride;
-import org.openengine.test.mock.CDIModuleOverridable;
-import org.openengine.test.mock.CDIModuleNonSingleton;
-import org.openengine.test.mock.CDIModuleWithNoProviders;
+import org.openengine.test.cdi.mock.CDIModuleNoOverride;
+import org.openengine.test.cdi.mock.CDIModuleNonSingleton;
+import org.openengine.test.cdi.mock.CDIModuleOverridable;
+import org.openengine.test.cdi.mock.CDIModuleWithNoProviders;
 
+@Tag("Unit")
 class CDITestUnit {
 
     @Nested
-    @DisplayName("Injector")
-    public class InjectorTest {
+    public class Registration {
 
         @BeforeEach
         void setup(){
@@ -29,7 +29,7 @@ class CDITestUnit {
             Injector.register(CDIModuleNoOverride.class);
 
             Assertions.assertEquals(
-                    "Module [org.openengine.test.mock.CDIModuleNoOverride] does not allow override of provider [java.lang.Integer integer()]",
+                    "Module [%s] does not allow override of provider [java.lang.Integer integer()]".formatted(CDIModuleNoOverride.class.getTypeName()),
                     Assertions.assertThrows(
                             CDIException.class,
                             () -> Injector.register(CDIModuleNoOverride.class)
@@ -58,6 +58,11 @@ class CDITestUnit {
                     ).getMessage()
             );
         }
+
+    }
+
+    @Nested
+    public class Creation {
 
         @Test
         void whenCreateUnknownInstanceThenShouldThrowException() {

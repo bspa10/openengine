@@ -1,4 +1,4 @@
-package org.openengine.test.mock;
+package org.openengine.test.cdi.mock;
 
 import org.openengine.cdi.Provider;
 
